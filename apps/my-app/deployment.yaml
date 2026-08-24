@@ -12,6 +12,8 @@ spec:
       labels:
         app: my-app
     spec:
+      nodeSelector:
+        disktype: ssd
       containers:
       - name: my-app
         image: nginx:1.25
