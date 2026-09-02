@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boot-kdemo-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YShimy/argocd-lab-apps.git
+    targetRevision: main
+    path: kustomize-demo/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: boot-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
