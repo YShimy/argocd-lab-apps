@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stuck-progressing
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YShimy/argocd-lab-apps.git
+    targetRevision: main
+    path: stuck-progressing
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stuck-progressing-ns
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
