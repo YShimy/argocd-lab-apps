@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-demo
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/YShimy/argocd-lab-apps.git
+        revision: main
+        directories:
+          - path: appset-demo/apps/*
+  template:
+    metadata:
+      name: 'appset-{{.path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/YShimy/argocd-lab-apps.git
+        targetRevision: main
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'appset-{{.path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
