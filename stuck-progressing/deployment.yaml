@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: stuck-app
-          image: nginx:this-tag-does-not-exist
+          image: nginx:1.27
